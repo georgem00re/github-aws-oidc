@@ -1,0 +1,25 @@
+name: list-s3-buckets-on-dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      role-to-assume:
+        description: 'The ARN of the AWS IAM role to assume.'
+        required: true
+permissions:
+  id-token: write
+  contents: read
+jobs:
+  something:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Configure AWS credentials from OIDC
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: ${{ github.event.inputs.repository_name }}
+          aws-region: eu-west-2
+      - name: Verify identity
+        run: aws sts get-caller-identity
+      - name: List S3 buckets
+        run: aws s3 ls
