@@ -1,4 +1,9 @@
 
+variable "AWS_REGION" {}
+variable "AWS_PROFILE" {}
+variable "ORGANISATION_NAME" {}
+variable "REPOSITORY_NAME" {}
+
 terraform {
   required_version = ">= 1.4.0"
 
@@ -21,8 +26,8 @@ locals {
 }
 
 provider "aws" {
-  region  = "eu-west-2"
-  profile = "admin"
+  region  = var.AWS_REGION
+  profile = var.AWS_PROFILE
 }
 
 module "aws_iam_openid_connect_provider" {
@@ -32,6 +37,8 @@ module "aws_iam_openid_connect_provider" {
 module "aws_iam_policy_document" {
   source                      = "./modules/aws_iam_policy_document"
   openid_connect_provider_arn = module.aws_iam_openid_connect_provider.arn
+  organisation_name           = var.ORGANISATION_NAME
+  repository_name             = var.REPOSITORY_NAME
 }
 
 module "aws_iam_role" {

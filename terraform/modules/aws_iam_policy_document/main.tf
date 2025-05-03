@@ -16,7 +16,7 @@ data "aws_iam_policy_document" "this" {
 
     condition {
       test     = "StringLike"
-      values   = ["repo:YourOrg/*"]
+      values   = ["repo:${var.organisation_name}/${var.repository_name}:*"]
       variable = "token.actions.githubusercontent.com:sub"
     }
   }
