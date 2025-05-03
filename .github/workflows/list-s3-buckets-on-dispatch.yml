@@ -9,7 +9,7 @@ permissions:
   id-token: write
   contents: read
 jobs:
-  something:
+  list-s3-buckets:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -17,7 +17,7 @@ jobs:
       - name: Configure AWS credentials from OIDC
         uses: aws-actions/configure-aws-credentials@v3
         with:
-          role-to-assume: ${{ github.event.inputs.repository_name }}
+          role-to-assume: ${{ github.event.inputs.role-to-assume }}
           aws-region: eu-west-2
       - name: Verify identity
         run: aws sts get-caller-identity
