@@ -21,7 +21,7 @@ locals {
 }
 
 provider "aws" {
-  region = "eu-west-2"
+  region  = "eu-west-2"
   profile = "admin"
 }
 
@@ -30,13 +30,13 @@ module "aws_iam_openid_connect_provider" {
 }
 
 module "aws_iam_policy_document" {
-  source = "./modules/aws_iam_policy_document"
+  source                      = "./modules/aws_iam_policy_document"
   openid_connect_provider_arn = module.aws_iam_openid_connect_provider.arn
 }
 
 module "aws_iam_role" {
-  source = "./modules/aws_iam_role"
-  name = local.oidc_role_name
+  source             = "./modules/aws_iam_role"
+  name               = local.oidc_role_name
   assume_role_policy = module.aws_iam_policy_document.json
 }
 
